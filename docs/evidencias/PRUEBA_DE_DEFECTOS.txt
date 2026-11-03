@@ -1,0 +1,12 @@
+PRUEBA DE DEFECTOS (¿las pruebas realmente detectan errores?)
+Se rompio el codigo a proposito, una regla a la vez, y se ejecuto la suite completa (57 pruebas).
+
+Defecto introducido                                   Resultado de la suite       ¿Lo detecto?
+----------------------------------------------------  --------------------------  ------------
+BR-06: aceptar membresias vencidas/suspendidas        6 fallaron, 51 pasaron      SI
+BR-05: ignorar el cupo maximo de la clase             1 fallo, 56 pasaron         SI
+BR-07: no revisar si la clase esta en el plan         2 fallaron, 55 pasaron      SI
+Codigo original restaurado                            57 pasaron                  (todo en orden)
+
+Cobertura de src/domain.py: 100% (189 de 189 lineas ejecutadas).
+Aviso: cobertura alta NO garantiza ausencia de errores; por eso se hizo esta prueba de defectos.

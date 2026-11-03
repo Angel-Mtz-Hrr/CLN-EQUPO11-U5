@@ -1,0 +1,16 @@
+ID,Regla,Escenario (en palabras del negocio),Entrada,Resultado esperado,Tipo,Prueba
+CP-01,BR-06,Membresia dentro de su periodo,Vigente 10 dias atras a 20 adelante,Es vigente,Exito,test_membresia_dentro_de_su_periodo_es_vigente
+CP-02,BR-06,Membresia vencida,Vencio ayer,No es vigente,Error,test_membresia_vencida_no_es_vigente
+CP-03,BR-06,Membresia suspendida con fechas correctas,Suspendida=True,No es vigente,Error,test_membresia_suspendida_no_es_vigente_aunque_no_haya_vencido
+CP-04,BR-06,Justo el instante del vencimiento,ahora = vencimiento,Todavia vigente,Limite,test_limite_el_dia_exacto_del_vencimiento_todavia_es_vigente
+CP-05,BR-06,Un segundo despues del vencimiento,vencimiento + 1 s,Ya no vigente,Limite,test_limite_un_segundo_despues_del_vencimiento_ya_no_es_vigente
+CP-06,BR-07,Plan Premium y clase de yoga,Premium + yoga,Elegible,Exito,test_socio_vigente_con_clase_en_su_plan_es_elegible
+CP-07,BR-07,Plan Basico y clase de yoga,Basico + yoga,Rechazo CLASE_FUERA_DEL_PLAN + sugerir actualizar,Error,test_clase_fuera_del_plan_es_rechazada_con_su_motivo
+CP-08,BR-05,Reservar con lugares libres,Clase de 2 lugares vacia,Reserva ACTIVA y queda 1 lugar,Exito,test_reservar_con_lugares_disponibles_registra_la_reserva
+CP-09,BR-05,Tomar el ultimo lugar,Queda 1 lugar,Reserva aceptada y clase llena,Limite,test_el_ultimo_lugar_se_puede_reservar
+CP-10,BR-05,Reservar en clase llena,2 de 2 lugares ocupados,Rechazo ClaseLlena y nada se guarda,Error,test_clase_llena_rechaza_una_reserva_mas
+CP-11,INV-8,Capacidad cero o negativa,0 / -1 / -20,Rechazo CapacidadInvalida,Error,test_capacidad_debe_ser_mayor_que_cero
+CP-12,INV-4 (TDD),Reservar dos veces la misma clase,Ana ya reservo y lo intenta otra vez,Rechazo ReservaDuplicada,Error,test_un_socio_no_puede_reservar_dos_veces_la_misma_clase
+CP-13,INV-4 (TDD),Cancelar y volver a reservar,Ana cancelo y reserva otra vez,Reserva aceptada,Limite,test_si_cancelo_su_reserva_puede_volver_a_reservar
+CP-14,BR-08,Quien no llego al terminar la clase,Reserva activa sin asistencia + fin de clase,Queda como NO_SHOW sin sancion,Exito,test_al_terminar_la_clase_quien_no_llego_queda_como_no_show
+CP-15,BR-08,Cerrar un segundo antes del fin,fin - 1 s,Rechazo ClaseNoHaTerminado,Limite,test_no_se_registran_no_shows_antes_de_que_termine_la_clase

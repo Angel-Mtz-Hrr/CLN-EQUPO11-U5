@@ -1,0 +1,17 @@
+name: CI FitZone
+on: [push, pull_request]
+jobs:
+  calidad:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - name: Revisar estilo con Ruff
+        run: ruff check src tests
+      - name: Pruebas y cobertura minima de 80%
+        run: pytest -v --cov=src --cov-report=term-missing --cov-fail-under=80
+      - name: Verificar que el codigo compila
+        run: python -m compileall -q src

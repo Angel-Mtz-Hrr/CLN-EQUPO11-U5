@@ -1,0 +1,15 @@
+# Entornos y caches de Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# Reportes que se regeneran solos
+htmlcov/
+.coverage
+coverage.xml
+
+# Secretos: NUNCA subir
+.env
+*.key
