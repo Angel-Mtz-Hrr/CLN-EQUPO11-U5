@@ -103,3 +103,16 @@ def session_factory(motor):
 @pytest.fixture
 def uow(session_factory):
     return SqlAlchemyUnitOfWork(session_factory)
+
+
+# ---------------------------------------------------------------------------------------
+# Seccion 3: un "correo de ensayo" que NO envia nada (para pruebas donde el aviso no es el tema)
+# ---------------------------------------------------------------------------------------
+from unittest.mock import create_autospec  # noqa: E402
+
+from src.ports import Notificador  # noqa: E402
+
+
+@pytest.fixture
+def notificador_falso():
+    return create_autospec(Notificador, instance=True)

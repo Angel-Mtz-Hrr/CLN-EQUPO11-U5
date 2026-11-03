@@ -81,3 +81,32 @@ class UnitOfWork(ABC):
         # Seguro por defecto: lo que no se confirmo explicitamente, se descarta.
         self.revertir()
         self.cerrar()
+
+
+# --------------------------------------------------------------------------------------
+# Servicios EXTERNOS (Seccion 3): cosas que FitZone no controla, como el correo o el banco.
+# Aqui solo se dice QUE se necesita; en las pruebas usamos "dobles" que NO envian ni cobran.
+# --------------------------------------------------------------------------------------
+
+
+class ServicioExternoNoDisponible(Exception):
+    """El servicio de afuera (correo, SMS, banco) no respondio. Suele ser temporal."""
+
+
+class PagoRechazado(Exception):
+    """El banco no aprobo el cobro (fondos insuficientes, tarjeta vencida, etc.)."""
+
+
+class Notificador(ABC):
+    """Avisa al socio por el canal que FitZone use (correo, SMS, app)."""
+
+    @abstractmethod
+    def enviar(self, socio_id: str, mensaje: str) -> None: ...
+
+
+class PasarelaDePago(ABC):
+    """El \"datafono en linea\": cobra dinero real, por eso jamas se llama de verdad en pruebas."""
+
+    @abstractmethod
+    def cobrar(self, socio_id: str, monto_centavos: int, concepto: str) -> str:
+        """Cobra y devuelve el numero de comprobante. Lanza PagoRechazado si el banco dice no."""

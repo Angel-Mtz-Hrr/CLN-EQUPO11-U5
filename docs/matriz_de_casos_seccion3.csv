@@ -1,0 +1,27 @@
+ID,Tema,Escenario (en palabras del negocio),Resultado esperado,Tipo,Prueba
+CP-37,Avisos,Reserva exitosa,Se envia UN aviso a la socia,Exito,test_una_reserva_exitosa_avisa_al_socio_una_sola_vez
+CP-38,Avisos,Recepcion reserva por una socia,"El aviso llega a la socia, no a Recepcion",Exito,test_recepcion_reserva_para_un_socio_y_el_aviso_le_llega_al_socio
+CP-39,Avisos,El correo esta caido al reservar,El lugar se conserva; se reporta que el aviso no salio,Error,test_si_el_correo_esta_caido_la_reserva_se_conserva
+CP-40,Avisos,Membresia vencida,"Se rechaza, no se guarda y NO se avisa",Error,test_membresia_vencida_no_avisa_ni_guarda
+CP-41,Avisos,Clase fuera del plan,Se rechaza y NO se avisa,Error,test_clase_fuera_del_plan_no_avisa
+CP-42,Avisos,Clase llena,Se rechaza y NO se avisa,Error,test_clase_llena_no_avisa_al_que_se_quedo_sin_lugar
+CP-43,Avisos,Alguien sin permiso intenta reservar por otro,"Rechazo por permiso, sin revelar datos de membresia",Error,test_sin_permiso_se_rechaza_por_permiso_y_no_se_revela_nada_de_la_membresia
+CP-44,Avisos,Se cancela una clase con 2 reservas,Se avisa a las 2 personas,Exito,test_se_avisa_a_cada_socio_con_reserva
+CP-45,Avisos,Un aviso falla al cancelar la clase,Los demas avisos salen igual,Limite,test_si_un_aviso_falla_los_demas_se_envian_igual
+CP-46,Avisos,Recepcion intenta cancelar una clase,Se rechaza; la clase sigue programada; nadie recibe aviso,Error,test_quien_no_es_administrador_no_cancela_ni_avisa
+CP-47,Pagos,Cobro aprobado de 500.00,El banco recibe exactamente ese monto; se avisa con comprobante,Exito,test_un_cobro_exitoso_pide_exactamente_lo_correcto_y_avisa
+CP-48,Pagos,El banco rechaza la tarjeta,Se informa el rechazo; no hay aviso de pago exitoso,Error,test_si_el_banco_rechaza_no_hay_aviso_de_pago_exitoso
+CP-49,Pagos,Rechazo del banco,Se intenta una sola vez (sin riesgo de doble cobro),Limite,test_un_rechazo_no_se_reintenta_solo
+CP-50,Pagos,El banco no responde,El error se ve; no hay aviso de exito,Error,test_si_el_banco_no_responde_el_error_se_ve_y_no_hay_aviso
+CP-51,Pagos,Cobro hecho pero el aviso falla,Se conserva el comprobante,Limite,test_si_el_cobro_se_hizo_pero_el_aviso_falla_el_comprobante_no_se_pierde
+CP-52,Pagos,Monto 0 o negativo,Nunca llega al banco,Error,test_un_monto_cero_o_negativo_nunca_llega_al_banco
+CP-53,Pagos,Monto de 1 centavo,Se cobra (minimo valido),Limite,test_el_monto_minimo_valido_es_un_centavo
+CP-54,Pagos,"Otro socio, instructor o administrador intenta cobrar",Se rechaza sin tocar el banco,Error,test_quien_no_tiene_permiso_no_dispara_ningun_cobro
+CP-55,Mocks,Doble de prueba con metodo inventado,La prueba avisa del error de inmediato,Error,test_el_doble_rechaza_metodos_que_el_servicio_real_no_tiene
+CP-56,Seguridad BR-01/03/05/US-19/BR-08,8 acciones x 5 roles (40 combinaciones),Solo el rol autorizado puede; los demas reciben rechazo y NO dejan cambios,Exito/Error,test_cada_rol_hace_solo_lo_que_le_corresponde
+CP-57,Seguridad BR-03,Identificadores casi iguales (ana / ana2),No se confunden,Limite,test_un_socio_no_reserva_para_otro_aunque_se_apellide_parecido
+CP-58,Seguridad BR-03,El Administrador intenta reservar,Se rechaza (reservas = Socio y Recepcion),Error,test_el_administrador_no_gestiona_reservas_de_socios
+CP-59,Seguridad pagos,6 roles intentan cobrar a un socio,Solo Recepcion (a cualquiera) y el propio socio,Exito/Error,test_quien_puede_cobrar_a_un_socio
+CP-60,Seguridad BR-04,Operaciones disponibles sobre membresias,Solo consultar,Exito,test_el_contrato_de_membresias_solo_ofrece_consultar
+CP-61,Seguridad BR-04,Reservar una clase,La membresia queda identica,Exito,test_reservar_no_altera_la_membresia_del_socio
+CP-62,Seguridad,"Sin permiso, con base real en memoria",La base queda igual,Error,test_un_socio_no_puede_reservar_por_otro_y_la_base_queda_igual

@@ -1,0 +1,21 @@
+PRUEBA DE DEFECTOS - SECCION 3 (¿las pruebas de avisos, cobros y permisos detectan errores reales?)
+Se rompio el codigo a proposito, una regla a la vez, y se ejecuto la suite completa (180 pruebas).
+
+Defecto introducido                                                      Resultado de la suite      ¿Lo detecto?
+------------------------------------------------------------------------ -------------------------- ------------
+Aviso caido ROMPE la reserva (no se atrapa el error)                     3 fallaron, 176 pasaron    SI
+Cancelar clase: un aviso fallido corta los demas avisos                  1 fallaron, 178 pasaron    SI
+Cobro: se acepta monto cero o negativo                                   3 fallaron, 176 pasaron    SI
+Cobro: se omite la revision de permisos                                  3 fallaron, 176 pasaron    SI
+Cobro: se reintenta tras un rechazo (riesgo de doble cobro)              1 fallaron, 178 pasaron    SI
+Reserva: se omite el permiso (BR-03) y se revela info de otro socio      1 fallaron, 179 pasaron    SI
+BR-01: Recepcion tambien puede cancelar clases                           6 fallaron, 173 pasaron    SI
+US-19: cualquier rol registra asistencia                                 5 fallaron, 174 pasaron    SI
+BR-03: un socio puede gestionar reservas de cualquiera                   11 fallaron, 168 pasaron   SI
+Pagos: el Administrador tambien puede cobrar a socios                    2 fallaron, 177 pasaron    SI
+Codigo original restaurado                                               0 fallaron, 180 pasaron    (todo en orden)
+
+Hallazgo: la 1a ronda dejo pasar el defecto 'omitir permiso en el servicio de reservas' (el dominio
+repite la revision, asi que nada fallaba). Se agrego una prueba (el rechazo debe ser por PERMISO,
+sin revelar el estado de la membresia de otra persona) y en la 2a ronda ya se detecta.
+Cobertura de src/: 100% (455 de 455 lineas). Aviso: cobertura alta NO garantiza ausencia de errores.

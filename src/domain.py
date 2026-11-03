@@ -94,6 +94,10 @@ class Actor:
             return True
         return self.rol is Rol.SOCIO and self.actor_id == socio_id
 
+    def puede_gestionar_pago_de(self, socio_id: str) -> bool:
+        """Pagos: igual que las reservas (Recepcion cobra a cualquiera; un socio, lo suyo)."""
+        return self.puede_gestionar_reserva_de(socio_id)
+
     def puede_administrar_clases(self) -> bool:
         """BR-01 y BR-05: solo el Administrador cancela clases o fija su capacidad."""
         return self.rol is Rol.ADMINISTRADOR

@@ -3,8 +3,8 @@
 Pruebas automatizadas para el sistema de reservas, accesos y listas de espera de **FitZone**
 (patrón _Domain Model_, basado en el BRD, las User Stories y el Informe de Arquitectura del Equipo 11).
 
-> **Avance:** Secciones 1 y 2 de 4 completadas (dominio + TDD + persistencia con SQLAlchemy).
-> Siguen: mocks y seguridad (Sección 3), cobertura HTML y CI (Sección 4).
+> **Avance:** Secciones 1, 2 y 3 de 4 completadas (dominio + TDD, persistencia con SQLAlchemy, mocks y seguridad).
+> Sigue: cobertura HTML y CI (Sección 4).
 
 ## ¿Qué es este proyecto, en palabras simples?
 
@@ -30,13 +30,16 @@ python -m pytest --cov=src --cov-report=term-missing
 | -------------------------------------------------------- | ---------------------------------------------------------------------------- |
 | `src/domain.py`                                          | Las reglas del negocio (BR-05, BR-06, BR-07, BR-08 y permisos BR-01 a BR-04) |
 | `src/ports.py`                                           | "Contratos" de persistencia (Repository y Unit of Work), sin SQL             |
+| `src/servicios.py`                                       | Reservar, cancelar clases y cobrar, coordinando reglas, base de datos, avisos y banco |
 | `src/repository.py`                                      | Implementación con SQLAlchemy: tablas, repositorios y transacciones          |
 | `tests/conftest.py`                                      | Datos de ejemplo ficticios y base SQLite en memoria para las pruebas         |
 | `tests/test_repository.py`                               | Pruebas de integración: guardar, recuperar, rollback, concurrencia           |
 | `tests/test_elegibilidad.py`                             | Pruebas de membresía vigente (BR-06) y clase incluida en el plan (BR-07)     |
+| `tests/test_servicios_externos.py`                       | Mocks: avisos y cobros simulados (nada se envia ni se cobra de verdad)       |
+| `tests/test_security.py`                                 | Permisos por rol (BR-01, BR-03, BR-04, BR-05, US-19, BR-08)                  |
 | `tests/test_clase_grupal.py`                             | Pruebas de cupo (BR-05), reservas, lista de espera, asistencia y no-shows    |
 | `docs/evidencias/`                                       | Salidas reales de RED, GREEN, REFACTOR y la prueba de defectos               |
-| `docs/matriz_de_casos_seccion1.csv` y `..._seccion2.csv` | Tablas de casos: éxito, error y límite                                       |
+| `docs/matriz_de_casos_seccion1/2/3.csv` | Tablas de casos: éxito, error y límite                                       |
 | `.github/workflows/ci.yml`                               | Revisión automática en GitHub (se detalla en la Sección 4)                   |
 
 ## Cómo leer una prueba (Arrange – Act – Assert)
@@ -65,3 +68,17 @@ Evidencia: `docs/evidencias/TDD_1_RED.txt` (2 fallan), `TDD_2_GREEN.txt` (57 pas
 - Las pruebas usan SQLite **en memoria**: nunca tocan datos reales y desaparecen al terminar.
 - Evidencia: `docs/evidencias/SECCION2_PRUEBA_DE_DEFECTOS.txt` (incluye un defecto real que las
   pruebas descubrieron y que se corrigió).
+
+## Sección 3: servicios externos y seguridad, sin tecnicismos
+
+- **Mock = actor de ensayo.** El correo y el banco son servicios de afuera. En las pruebas los
+  reemplazamos por "actores de ensayo" que solo **anotan** lo que se les pide: así comprobamos
+  _"se pidió cobrar exactamente 500 pesos"_ sin cobrar a nadie ni enviar un solo correo.
+- **Regla de oro de los avisos:** primero se guarda la reserva, después se avisa. Si el correo está
+  caído, el socio **conserva su lugar**; el sistema solo reporta que el aviso no salió.
+- **Regla de oro de los cobros:** un solo intento (nunca doble cobro), monto mayor que cero, y si el
+  banco rechaza no se manda ningún "pago exitoso".
+- **Seguridad = llaves y puertas.** Se prueban las 8 acciones x 5 roles (40 combinaciones). Cuando
+  alguien no tiene permiso, además de recibir un rechazo, **no queda ningún cambio** guardado.
+- Evidencia: `docs/evidencias/SECCION3_PRUEBA_DE_DEFECTOS.txt` (la prueba de defectos descubrió un hueco
+  y se cerró con una prueba nueva) y `SECCION3_pruebas_mocks_y_seguridad.txt`.
