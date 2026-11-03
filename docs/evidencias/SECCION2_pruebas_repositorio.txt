@@ -1,0 +1,44 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.2.0, pluggy-1.7.0 -- /usr/bin/python
+rootdir: /home/claude/fitzone
+configfile: pyproject.toml
+plugins: cov-7.1.0
+collecting ... collected 35 items
+
+tests/test_repository.py::TestGuardarYRecuperar::test_una_clase_confirmada_se_puede_recuperar_igual PASSED [  2%]
+tests/test_repository.py::TestGuardarYRecuperar::test_buscar_una_clase_que_no_existe_devuelve_none PASSED [  5%]
+tests/test_repository.py::TestGuardarYRecuperar::test_se_guardan_junto_con_la_clase_sus_reservas_y_su_lista_de_espera PASSED [  8%]
+tests/test_repository.py::TestGuardarYRecuperar::test_el_orden_de_la_lista_de_espera_se_conserva PASSED [ 11%]
+tests/test_repository.py::TestGuardarYRecuperar::test_cada_persona_en_la_lista_guarda_su_numero_de_posicion PASSED [ 14%]
+tests/test_repository.py::TestGuardarYRecuperar::test_cuando_alguien_sale_de_la_lista_los_demas_suben_de_posicion PASSED [ 17%]
+tests/test_repository.py::TestGuardarYRecuperar::test_los_cambios_de_estado_se_guardan_al_actualizar PASSED [ 20%]
+tests/test_repository.py::TestGuardarYRecuperar::test_quien_sale_de_la_lista_deja_de_aparecer_en_ella PASSED [ 22%]
+tests/test_repository.py::TestGuardarYRecuperar::test_el_cierre_de_clase_con_no_shows_tambien_se_guarda PASSED [ 25%]
+tests/test_repository.py::TestRollback::test_si_se_revierte_no_queda_nada_guardado PASSED [ 28%]
+tests/test_repository.py::TestRollback::test_si_se_olvida_confirmar_no_se_guarda_nada PASSED [ 31%]
+tests/test_repository.py::TestRollback::test_despues_de_revertir_confirmar_ya_no_guarda_lo_descartado PASSED [ 34%]
+tests/test_repository.py::TestRollback::test_un_error_de_negocio_a_mitad_de_la_operacion_deshace_todo PASSED [ 37%]
+tests/test_repository.py::TestRollback::test_lo_confirmado_antes_no_se_pierde_por_un_rollback_posterior PASSED [ 40%]
+tests/test_repository.py::TestRestriccionesDeLaBaseDeDatos::test_la_base_rechaza_una_capacidad_de_cero PASSED [ 42%]
+tests/test_repository.py::TestRestriccionesDeLaBaseDeDatos::test_la_base_rechaza_dos_lugares_vigentes_del_mismo_socio PASSED [ 45%]
+tests/test_repository.py::TestRestriccionesDeLaBaseDeDatos::test_la_base_permite_reservar_otra_vez_si_la_anterior_fue_cancelada PASSED [ 48%]
+tests/test_repository.py::TestRestriccionesDeLaBaseDeDatos::test_la_base_rechaza_al_mismo_socio_dos_veces_en_la_lista_de_espera PASSED [ 51%]
+tests/test_repository.py::TestRestriccionesDeLaBaseDeDatos::test_la_base_rechaza_una_reserva_de_una_clase_que_no_existe PASSED [ 54%]
+tests/test_repository.py::TestConcurrenciaOptimista::test_si_dos_personas_editan_la_misma_clase_solo_gana_la_primera PASSED [ 57%]
+tests/test_repository.py::TestConcurrenciaOptimista::test_despues_de_un_conflicto_se_puede_reintentar_con_datos_frescos PASSED [ 60%]
+tests/test_repository.py::TestConcurrenciaOptimista::test_la_capacidad_nunca_se_supera_aunque_se_llene_poco_a_poco PASSED [ 62%]
+tests/test_repository.py::TestMembresiasYPlanes::test_un_plan_se_recupera_con_sus_tipos_de_clase PASSED [ 65%]
+tests/test_repository.py::TestMembresiasYPlanes::test_un_plan_sin_clases_grupales_se_recupera_vacio PASSED [ 68%]
+tests/test_repository.py::TestMembresiasYPlanes::test_un_plan_inexistente_devuelve_none PASSED [ 71%]
+tests/test_repository.py::TestMembresiasYPlanes::test_una_membresia_suspendida_se_recupera_como_suspendida PASSED [ 74%]
+tests/test_repository.py::TestMembresiasYPlanes::test_un_socio_sin_membresia_devuelve_none PASSED [ 77%]
+tests/test_repository.py::TestMembresiasYPlanes::test_la_base_no_acepta_una_membresia_de_un_plan_que_no_existe PASSED [ 80%]
+tests/test_repository.py::TestClasesTerminadasSinCierre::test_solo_aparecen_clases_terminadas_con_reservas_activas PASSED [ 82%]
+tests/test_repository.py::TestClasesTerminadasSinCierre::test_una_clase_ya_cerrada_no_vuelve_a_aparecer PASSED [ 85%]
+tests/test_repository.py::TestFlujoCompletoConBaseDeDatos::test_reservar_validando_membresia_plan_y_cupo_con_datos_guardados PASSED [ 88%]
+tests/test_repository.py::TestFlujoCompletoConBaseDeDatos::test_la_clase_con_capacidad_y_horario_se_reconstruye_con_sus_reglas_activas PASSED [ 91%]
+tests/test_repository.py::test_el_dominio_no_importa_sqlalchemy PASSED   [ 94%]
+tests/test_repository.py::test_se_guarda_ClaseRow_con_version_inicial_y_sube_al_actualizar PASSED [ 97%]
+tests/test_repository.py::test_los_datos_sobreviven_aunque_se_cierre_y_se_vuelva_a_abrir_la_base PASSED [100%]
+
+============================== 35 passed in 0.33s ==============================

@@ -36,7 +36,9 @@ def plan_basico():
 
 @pytest.fixture
 def membresia_vigente():
-    return Membresia("ana", "PREMIUM", AHORA - timedelta(days=10), AHORA + timedelta(days=20))
+    return Membresia(
+        "ana", "PREMIUM", AHORA - timedelta(days=10), AHORA + timedelta(days=20)
+    )
 
 
 @pytest.fixture
@@ -74,3 +76,30 @@ def administrador():
 @pytest.fixture
 def sistema():
     return Actor("sistema", Rol.SISTEMA)
+
+
+# ---------------------------------------------------------------------------------------
+# Base de datos de prueba (Seccion 2): SQLite EN MEMORIA, una nueva por cada prueba.
+# Desaparece al terminar la prueba: jamas toca datos reales.
+# ---------------------------------------------------------------------------------------
+from sqlalchemy.orm import sessionmaker  # noqa: E402
+
+from src.repository import SqlAlchemyUnitOfWork, crear_motor, crear_tablas  # noqa: E402
+
+
+@pytest.fixture
+def motor():
+    motor = crear_motor("sqlite:///:memory:")
+    crear_tablas(motor)
+    yield motor
+    motor.dispose()
+
+
+@pytest.fixture
+def session_factory(motor):
+    return sessionmaker(bind=motor)
+
+
+@pytest.fixture
+def uow(session_factory):
+    return SqlAlchemyUnitOfWork(session_factory)

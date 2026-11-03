@@ -1,0 +1,25 @@
+PRUEBA DE DEFECTOS DE LA PERSISTENCIA (Seccion 2)
+Se rompio el codigo a proposito, una cosa a la vez, y se ejecuto la suite completa (92 pruebas).
+
+Defecto introducido                                          Resultado                  ¿Detectado?
+-----------------------------------------------------------  -------------------------  -----------
+D1  revertir() no deshace nada (rollback inutil)             1 fallo, 91 pasaron        SI
+D2  salir del bloque "with" confirma solo (inseguro)         2 fallaron, 90 pasaron     SI
+D3  se quita la red de seguridad anti-lugar-doble (BD)       1 fallo, 91 pasaron        SI
+D4  la version no sube al guardar                            3 fallaron, 89 pasaron     SI
+D5  posiciones de la lista de espera mal guardadas           1 fallo, 91 pasaron        SI
+D6  no se guardan las reservas                               10 fallaron, 82 pasaron    SI
+D7  no se conserva la version leida (conflicto invisible)    2 fallaron, 90 pasaron     SI
+Codigo original restaurado                                   92 pasaron
+
+HISTORIAL HONESTO
+- Primera ronda: D1 y D5 NO fueron detectados. Se agregaron pruebas (revertir y luego
+  confirmar; numero de posicion guardado; reordenamiento al salir alguien de la lista).
+- Las pruebas de concurrencia fallaron al inicio y revelaron un DEFECTO REAL del codigo:
+  la fila leida se olvidaba y el conflicto entre dos personas pasaba desapercibido.
+  Se corrigio en SqlClaseGrupalRepository (_filas_cargadas) y las pruebas pasaron.
+- Un primer sabotaje de D7 fue demasiado tibio (no cambiaba el comportamiento) y se
+  reformulo; por eso se verifica que cada sabotaje realmente se aplique.
+
+Cobertura: src/domain.py 100% | src/ports.py 100% | src/repository.py 100% | TOTAL 372/372.
+Aviso: cobertura alta NO garantiza ausencia de errores; por eso existe esta prueba de defectos.

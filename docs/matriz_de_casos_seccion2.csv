@@ -1,0 +1,22 @@
+ID,Tema,Escenario (en palabras del negocio),Resultado esperado,Tipo,Prueba
+CP-16,Commit,Se guarda y confirma una clase,Una sesion nueva la recupera igual,Exito,test_una_clase_confirmada_se_puede_recuperar_igual
+CP-17,Commit,Clase llena con una persona esperando,Reservas y lista se recuperan completas,Exito,test_se_guardan_junto_con_la_clase_sus_reservas_y_su_lista_de_espera
+CP-18,Commit,Tres personas en lista de espera,Se conserva el orden y el numero de posicion,Exito,test_cada_persona_en_la_lista_guarda_su_numero_de_posicion
+CP-19,Commit,Sale la primera de la lista,Las demas suben de posicion,Limite,test_cuando_alguien_sale_de_la_lista_los_demas_suben_de_posicion
+CP-20,Commit,Cierre de clase con no-show,El no-show queda guardado,Exito,test_el_cierre_de_clase_con_no_shows_tambien_se_guarda
+CP-21,Commit,Buscar una clase inexistente,Devuelve vacio sin error,Limite,test_buscar_una_clase_que_no_existe_devuelve_none
+CP-22,Rollback,Se guarda pero se revierte,No queda nada guardado,Error,test_si_se_revierte_no_queda_nada_guardado
+CP-23,Rollback,Se olvida confirmar,No queda nada guardado (seguro por defecto),Error,test_si_se_olvida_confirmar_no_se_guarda_nada
+CP-24,Rollback,Revertir y despues confirmar,Lo descartado no se guarda,Error,test_despues_de_revertir_confirmar_ya_no_guarda_lo_descartado
+CP-25,Rollback,Ana y Beto reservan y Carla choca con clase llena,Todo se deshace (ni Ana ni Beto quedan),Error,test_un_error_de_negocio_a_mitad_de_la_operacion_deshace_todo
+CP-26,Rollback,Rollback posterior,Lo confirmado antes no se pierde,Exito,test_lo_confirmado_antes_no_se_pierde_por_un_rollback_posterior
+CP-27,Base de datos,Capacidad cero,La base lo rechaza,Error,test_la_base_rechaza_una_capacidad_de_cero
+CP-28,Base de datos,Mismo socio con dos lugares vigentes,La base lo rechaza (INV-4),Error,test_la_base_rechaza_dos_lugares_vigentes_del_mismo_socio
+CP-29,Base de datos,Reserva cancelada y otra activa,La base lo permite,Limite,test_la_base_permite_reservar_otra_vez_si_la_anterior_fue_cancelada
+CP-30,Base de datos,Mismo socio dos veces en la lista,La base lo rechaza,Error,test_la_base_rechaza_al_mismo_socio_dos_veces_en_la_lista_de_espera
+CP-31,Concurrencia,Dos personas editan a la vez,Solo gana la primera; la otra recibe ConflictoDeVersion,Error,test_si_dos_personas_editan_la_misma_clase_solo_gana_la_primera
+CP-32,Concurrencia,Reintento tras el conflicto,Con datos frescos se logra reservar,Exito,test_despues_de_un_conflicto_se_puede_reintentar_con_datos_frescos
+CP-33,Concurrencia,Tres solicitudes para 2 lugares,Reservada / reservada / rechazada,Limite,test_la_capacidad_nunca_se_supera_aunque_se_llene_poco_a_poco
+CP-34,Persistencia,Se apaga y enciende el sistema,Los datos siguen ahi (base en archivo),Exito,test_los_datos_sobreviven_aunque_se_cierre_y_se_vuelva_a_abrir_la_base
+CP-35,Integracion,Reservar leyendo membresia plan y clase de la base,Reserva guardada y queda 1 lugar,Exito,test_reservar_validando_membresia_plan_y_cupo_con_datos_guardados
+CP-36,Arquitectura,El dominio no usa la base de datos,El dominio no importa SQLAlchemy,Exito,test_el_dominio_no_importa_sqlalchemy
