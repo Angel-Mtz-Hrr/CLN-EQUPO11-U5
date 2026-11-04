@@ -1,0 +1,19 @@
+SECCION 4 - COBERTURA (generado 2026-11-04)
+Comando: python -m pytest --cov=src --cov-report=term-missing --cov-report=html --cov-fail-under=80
+
+........................................................................ [ 40%]
+........................................................................ [ 80%]
+....................................                                     [100%]
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.3-final-0 ________________
+Name                Stmts   Miss  Cover   Missing
+-------------------------------------------------
+src/__init__.py         0      0   100%
+src/domain.py         191      0   100%
+src/ports.py           26      0   100%
+src/repository.py     163      0   100%
+src/servicios.py       75      0   100%
+-------------------------------------------------
+TOTAL                 455      0   100%
+Required test coverage of 80% reached. Total coverage: 100.00%
+180 passed, 1 warning in 4.00s

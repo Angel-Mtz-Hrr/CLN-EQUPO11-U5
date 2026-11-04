@@ -10,3 +10,7 @@ line-length = 100
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "W"]
+
+[tool.coverage.report]
+fail_under = 80
+show_missing = true
