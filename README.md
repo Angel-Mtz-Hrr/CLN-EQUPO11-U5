@@ -3,8 +3,8 @@
 Pruebas automatizadas para el sistema de reservas, accesos y listas de espera de **FitZone**
 (patrón _Domain Model_, basado en el BRD, las User Stories y el Informe de Arquitectura del Equipo 11).
 
-> **Avance:** Secciones 1, 2 y 3 de 4 completadas (dominio + TDD, persistencia con SQLAlchemy, mocks y seguridad).
-> Sigue: cobertura HTML y CI (Sección 4).
+> **Avance:** Secciones 1 a 4 completadas (dominio + TDD, persistencia, mocks y seguridad, cobertura y CI).
+> Resumen para no técnicos: `docs/RESUMEN_EJECUTIVO.md`.
 
 ## ¿Qué es este proyecto, en palabras simples?
 
@@ -40,7 +40,9 @@ python -m pytest --cov=src --cov-report=term-missing
 | `tests/test_clase_grupal.py`                             | Pruebas de cupo (BR-05), reservas, lista de espera, asistencia y no-shows    |
 | `docs/evidencias/`                                       | Salidas reales de RED, GREEN, REFACTOR y la prueba de defectos               |
 | `docs/matriz_de_casos_seccion1/2/3.csv` | Tablas de casos: éxito, error y límite                                       |
-| `.github/workflows/ci.yml`                               | Revisión automática en GitHub (se detalla en la Sección 4)                   |
+| `.github/workflows/ci.yml`                               | Revisión automática en GitHub: Ruff, pruebas, cobertura ≥ 80% y reporte HTML |
+| `docs/RESUMEN_EJECUTIVO.md`                              | Resultados explicados para cualquier stakeholder                             |
+| `docs/evidencias/cobertura_html/index.html`              | Reporte HTML de cobertura (ábrelo en el navegador)                           |
 
 ## Cómo leer una prueba (Arrange – Act – Assert)
 
@@ -82,3 +84,9 @@ Evidencia: `docs/evidencias/TDD_1_RED.txt` (2 fallan), `TDD_2_GREEN.txt` (57 pas
   alguien no tiene permiso, además de recibir un rechazo, **no queda ningún cambio** guardado.
 - Evidencia: `docs/evidencias/SECCION3_PRUEBA_DE_DEFECTOS.txt` (la prueba de defectos descubrió un hueco
   y se cerró con una prueba nueva) y `SECCION3_pruebas_mocks_y_seguridad.txt`.
+
+## Sección 4: cobertura y automatización, sin tecnicismos
+
+- **Cobertura** = cuántas líneas de las reglas fueron "visitadas" por alguna prueba. Meta: 80%. Resultado: **100%** (455 de 455 líneas de `src/`).
+- **CI (GitHub Actions)** = un revisor automático: en cada cambio instala todo, revisa el estilo con Ruff, corre las 180 pruebas y se pone en rojo si la cobertura baja de 80%.
+- El reporte HTML queda guardado en cada ejecución (sección *Artifacts* de la corrida en GitHub).
