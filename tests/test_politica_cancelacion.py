@@ -13,7 +13,7 @@ class TestVentanaDeCancelacion:
         ahora = clase_yoga.horario.inicio - timedelta(hours=3)
         # Act + Assert: no lanza ningun error
         PoliticaDeCancelacion().exigir_puede_cancelar(socio_ana, "ana", clase_yoga, ahora)
-        
+
     def test_limite_exactamente_dos_horas_todavia_puede_cancelar(self, clase_yoga, socio_ana):
         ahora = clase_yoga.horario.inicio - timedelta(hours=2)
         PoliticaDeCancelacion().exigir_puede_cancelar(socio_ana, "ana", clase_yoga, ahora)
