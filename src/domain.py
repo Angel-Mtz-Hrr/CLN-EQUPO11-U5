@@ -12,7 +12,7 @@ siempre dan el mismo resultado.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timedelta
 from enum import Enum
 
 # --------------------------------------------------------------------------------------
@@ -66,6 +66,13 @@ class ClaseNoHaTerminado(ReglaDeNegocioError):
 
 class PermisoDenegado(ReglaDeNegocioError):
     """BR-01 a BR-04: el rol de quien actua no tiene permiso para esta accion."""
+
+class ClaseYaIniciada(ReglaDeNegocioError):
+    """BR-10 (provisional): una vez iniciada la clase, ninguna reserva se cancela."""
+
+
+class CancelacionFueraDeVentana(ReglaDeNegocioError):
+    """BR-10 (provisional): el socio cancela con menos anticipacion de la permitida."""
 
 
 # --------------------------------------------------------------------------------------
@@ -380,3 +387,38 @@ class ClaseGrupal:
         if nueva.valor < self.lugares_ocupados():
             raise CapacidadInvalida("la nueva capacidad es menor a los lugares ya ocupados")
         self.capacidad = nueva
+
+
+# --------------------------------------------------------------------------------------
+# Politica de cancelacion de reservas (BR-10, PROVISIONAL: pendiente de aprobar por FitZone)
+# --------------------------------------------------------------------------------------
+
+
+# Valor PROVISIONAL (BR-10 aun no aprobada por FitZone): cambiarlo aqui basta.
+ANTICIPACION_MINIMA_PARA_CANCELAR = timedelta(hours=2)
+
+
+class PoliticaDeCancelacion:
+    """Servicio de dominio: decide si un actor puede cancelar la reserva de un socio."""
+
+    def exigir_puede_cancelar(
+        self, actor: Actor, socio_id: str, clase: ClaseGrupal, ahora: datetime
+    ) -> None:
+        if not actor.puede_gestionar_reserva_de(socio_id):  # 1. rol (BR-03)
+            raise PermisoDenegado("este rol no puede cancelar la reserva de ese socio")
+        if clase.estado is not EstadoDeClase.PROGRAMADA:  # 2. estado de la clase
+            raise ClaseNoProgramada("la clase ya no esta programada")
+        if ahora >= clase.horario.inicio:  # 3. tiempo: nadie cancela una clase ya iniciada
+            raise ClaseYaIniciada("la clase ya inicio")
+        if self._es_propietario(actor) and self._falta_poco(clase, ahora):  # 4. ventana del socio
+            raise CancelacionFueraDeVentana(
+                f"un socio cancela con al menos {ANTICIPACION_MINIMA_PARA_CANCELAR} de anticipacion"
+            )
+
+    @staticmethod
+    def _es_propietario(actor: Actor) -> bool:
+        return actor.rol is Rol.SOCIO
+
+    @staticmethod
+    def _falta_poco(clase: ClaseGrupal, ahora: datetime) -> bool:
+        return clase.horario.inicio - ahora < ANTICIPACION_MINIMA_PARA_CANCELAR
